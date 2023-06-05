@@ -10,11 +10,18 @@ const messagePar = document.querySelector(".message");
 
 //? Score
 const scoreCardSection = document.querySelector(".score-card");
+const pcScoreSpan = document.getElementById("pc-score");
+const yourScoreSpan = document.getElementById("your-score");
+
+//? Modal
+const modalCardSection = document.querySelector(".modal-card");
+const finalMessagePar = document.getElementById("final-message");
+const playAgainBtn = document.getElementById("play-again");
 
 //* ------- Variables ------- */
 let userSelectImg = document.createElement("img");
 let pcSelectImg = document.createElement("img");
-
+let pcRandom;
 //? Colors
 const YELLOW = "#ffc538";
 const RED = "#fb778b";
@@ -35,7 +42,8 @@ selectionArticle.addEventListener("click", (e) => {
 
 const createPcSelection = () => {
   const pcArr = ["rock", "paper", "scissor"];
-  const pcRandom = pcArr[Math.floor(Math.random() * 3)];
+  pcRandom = pcArr[Math.floor(Math.random() * 3)];
+  pcRandom = "rock";
   pcSelectImg.src = `./assets/${pcRandom}.png`;
   pcSelectImg.alt = pcRandom;
   pcChoiceDiv.appendChild(pcSelectImg);
@@ -58,6 +66,10 @@ const calculateResult = () => {
       pcRandom === "scissor" ? youLost() : youWin();
     }
   }
+
+  if (pcScoreSpan.textContent === "10" || yourScoreSpan.textContent === "10") {
+    openModal();
+  }
 };
 
 const draw = () => {
@@ -66,9 +78,29 @@ const draw = () => {
   messagePar.style.backgroundColor = YELLOW;
 };
 
-const youLost = () => {};
+const youLost = () => {
+  messagePar.textContent = "You Lost";
+  scoreCardSection.style.color = RED;
+  messagePar.style.backgroundColor = RED;
+  pcScoreSpan.textContent++;
+};
 
-const youWin = () => {};
+const youWin = () => {
+  messagePar.textContent = "You Win";
+  scoreCardSection.style.color = GREEN;
+  messagePar.style.backgroundColor = GREEN;
+  yourScoreSpan.textContent++;
+};
+
+const openModal = () => {
+  modalCardSection.classList.add("show");
+
+  if (yourScoreSpan.textContent === "10") {
+    finalMessagePar.textContent = "💃 You Win🕺";
+    document.querySelector(".modal").style.backgroundColor = GREEN;
+    playAgainBtn.style.color = GREEN;
+  }
+};
 
 //! İlkel Yontem
 //? Resimler
